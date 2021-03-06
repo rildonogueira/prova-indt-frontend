@@ -1,0 +1,85 @@
+<h1 class="mt-4">Livros</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Consulta de Livros</li>
+</ol>
+<div class="class container">
+
+  <div class="row">
+    <div class="col-md-12">
+     <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+      {{mensagemSucesso}}
+     </div>
+     <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
+       {{ mensagemErro }}
+     </div>
+    </div>
+  </div>
+
+
+
+<div class="class row">
+  <div class="class col md 2">
+    <button class="class btn btn-warning" (click)="novoCadastro()" >
+      <i class="class fa fa-plus"></i>
+      Novo
+    </button>
+  </div>
+</div>
+ <div class="class row">
+    <div class="class col md 12">
+      <br>
+      <table class="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Titulo </th>
+            <th>Autor </th>
+            <th>Editora</th>
+            <th>Edicao</th>
+            <th>ISBN</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor=" let listatodos of listarlivros | paginate: { itemsPerPage: count, currentPage: p }">
+            <td>{{listatodos.idlivro}}</td>
+            <td>{{listatodos.titulolivro}}</td>
+            <td>{{listatodos.nomeautorlivro}}</td>
+            <td>{{listatodos.editoralivro}}</td>
+            <td>{{listatodos.edicaolivro}}</td>
+            <td>{{listatodos.isbnlivro}}</td>
+            <td>
+            <button class="btn btn-primary" routerLink="/livros-form/{{listatodos.idlivro}}">
+                <i class="fa fa-edit" ></i>
+              </button>
+              <button class="btn btn-danger" data-toggle="modal" data-target="#modalDelecao" (click)="preparaDelecao(listatodos)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+   <div class="text-right">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    </div>
+
+  </div>
+  <div id="modalDelecao" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4>Confirmação</h4>
+        </div>
+        <div class="modal-body" *ngIf="livroSelecionado">
+            Confirma a exclusão do Livro {{livroSelecionado.titulolivro}}?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" (click)="deletarLivros()" data-dismiss="modal" >Excluir</button>
+            <button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
